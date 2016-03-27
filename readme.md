@@ -2,8 +2,8 @@
 Without Display and Wired Lan (Ethernet)
 
 ## Note
-* Do not forget reboot ($> sudo reboot) to reflect changes
-
+* Do not forget reboot (pi$> sudo reboot) to reflect changes
+* I assume the IP address of Raspberry Pi is 192.168.0.144
 ## First step
 * You will be able to:
 	* Login to Raspberry Pi via UART
@@ -59,7 +59,7 @@ I don't use this
 * Turn on Raspberrypi and login
 
 ### Modify Wifi configuration
-* $> sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+* pi$> sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
 ```
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
@@ -72,7 +72,7 @@ network={
 }
 ```
 
-* $> sudo nano /etc/network/interfaces
+* pi$> sudo nano /etc/network/interfaces
 ```
 source-directory /etc/network/interfaces.d
 
@@ -93,17 +93,17 @@ wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
 iface default inet dhcp
 ```
 
-* $> sudo iwconfig wlan0 power off
+* pi$> sudo iwconfig wlan0 power off
 
 ### Enable SSH
-* $> sudo raspi-config
+* pi$> sudo raspi-config
 	* 9 Advanced Options -> A4 SSH -> Enable
-* $> sudo reboot
-* Note:
-	* You may be asked if you want to add the device to known host list. just click OK
-	* It may take some time to connect at first
+* pi$> sudo reboot
+### Note:
+* You may be asked if you want to add the device to known host list. just click OK
+* It may take some time to connect at first
 
-## USB memory
+## [Optional] USB memory
 * You will be able to:
 	* Use your USB stick memory as OS root. It is said that it's more reliable than SD card.
 * You need:
@@ -111,7 +111,7 @@ iface default inet dhcp
 ### how to
  Skip
 
-##[Optional] Setup HDMI Display (1080 x 600)
+## [Optional] Setup HDMI Display (1080 x 600)
 * You will be able to:
 	* Use a 7 inch display with resolution of 1080 x 600
 * You need:
@@ -120,8 +120,8 @@ iface default inet dhcp
 	* HDMI cable
 
 ### Modify Config file
-* $> sudo nano /boot/config.txt
-* $> sudo reboot
+* pi$> sudo nano /boot/config.txt
+* pi$> sudo reboot
 ```
 max_usb_current=1
 hdmi_group=2
@@ -149,3 +149,56 @@ hdmi_cvt 1024 600 60 6 0 0 0
 * sftp> put test.txt
 * sftp> quit
 * others: lmkdir, lls
+
+## Remote Desktop using VNC
+* You will be able to:
+	* Access Raspberry Pi using Remote Desktop (GUI)
+### Install VNC Client on Host PC
+https://www.realvnc.com/download/
+
+### Install VNC Server on Raspberry Pi
+```
+pi$> sudo apt-get update
+pi$> sudo apt-get upgrade
+pi$> sudo apt-get install tightvncserver
+pi$> tightvncserver
+	New 'X' desktop is raspberrypi:1
+pi$> vncserver :1 -geometry 800x600 -depth 24
+```
+### Confirm connection
+* Connect to the Raspberry Pi using VNC Client
+	* VNC Server: 192.168.0.144:1
+	* Encryption: Let VNC Server choose
+
+### Stop VNC server
+```
+pi$> vncserver -kill :1
+```
+
+### Autostart setting
+```
+pi$> sudo vi /etc/init.d/vncboot
+pi$> sudo chmod 755 /etc/init.d/vncboot
+pi$> sudo update-rc.d vncboot defaults
+pi$> sudo reboot
+```
+[Completed vncboot is here](vnc/vncboot) (Retrieved from http://assimane.blog.so-net.ne.jp/2013-03-27)
+
+### Disable autostart
+```
+pi$> sudo update-rc.d vncboot remove
+```
+
+### Confirmations
+#### VNC Running?
+```
+pi$> ps -ef | grep vnc
+pi$> netstat -nlt
+```
+5901 port should be open
+
+#### Added autostart servie?
+```
+pi$> ls /etc/rc*.d
+pi$> service vncboot status
+```
