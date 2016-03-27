@@ -110,6 +110,7 @@ iface default inet dhcp
 	* Use your USB stick memory as OS root. It is said that it's more reliable than SD card.
 * You need:
 	* USB stick memory
+
 ### how to
  Skip
 
@@ -155,6 +156,7 @@ hdmi_cvt 1024 600 60 6 0 0 0
 ## Remote Desktop using VNC
 * You will be able to:
 	* Access Raspberry Pi using Remote Desktop (GUI)
+
 ### Install VNC Client on Host PC
 https://www.realvnc.com/download/
 
