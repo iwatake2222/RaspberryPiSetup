@@ -100,6 +100,7 @@ iface default inet dhcp
 * pi$> sudo raspi-config
 	* 9 Advanced Options -> A4 SSH -> Enable
 * pi$> sudo reboot
+
 ### Note:
 * You may be asked if you want to add the device to known host list. just click OK
 * It may take some time to connect at first
