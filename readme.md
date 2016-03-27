@@ -4,6 +4,7 @@ Without Display and Wired Lan (Ethernet)
 ## Note
 * Do not forget reboot (pi$> sudo reboot) to reflect changes
 * I assume the IP address of Raspberry Pi is 192.168.0.144
+
 ## First step
 * You will be able to:
 	* Login to Raspberry Pi via UART
