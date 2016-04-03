@@ -4,6 +4,10 @@ Without Display and Wired Lan (Ethernet)
 ## Note
 * Do not forget reboot (pi$> sudo reboot) to reflect changes
 * I assume the IP address of Raspberry Pi is 192.168.0.144
+* If you modify the following config files on your Host PC, you may not need USB-Serial converter
+	* boot% /config.txt
+	* root% /etc/wpa_supplicant/wpa_supplicant.conf
+	* root% /etc/network/interfaces
 
 ## First step
 * You will be able to:
@@ -12,7 +16,7 @@ Without Display and Wired Lan (Ethernet)
 	* Raspberry Pi
 	* USB-Serial converter
 	* SD card
-	* Windows PC
+	* Host PC (Windows or Ubuntu)
 * You do not need:
 	* Wired Lan (Ethernet)
 	* Display
@@ -26,12 +30,26 @@ I don't use this
 * Download OS image
 	* https://www.raspberrypi.org/
 	* DOWNLOADS -> RASPBIAN -> Raspbian Jessie -> Download ZIP
+
+#### Windows PC
 * Download Win32DiskImager
 	* https://sourceforge.net/projects/win32diskimager/
 * Write OS image
 	* Run Win32DiskImager as administrator
 	* Select unzipped os image file and SD card drive
 	* Click "Write"
+
+#### Ubuntu
+* If there are several partitions in the SD card, marge them and format it using "Disks"
+* check device name of the sd card (assume it as "/dev/sdb1")
+	* $PC$ > df -h
+* Write OS image
+	* $PC$ > umount /dev/sdb1
+		# this should be partision name
+	* $PC$ > sudo dd bs=4M if=2016-03-18-raspbian-jessie.img of=/dev/sdb
+		# this should be device name (no number)
+	* $PC$ > sync
+
 
 ### Connect to Raspberry Pi via UART
 * Connect USB-Serial converter to Windows PC
@@ -134,6 +152,9 @@ hdmi_cvt 1024 600 60 6 0 0 0
 ```
 [Completed config.txt is here](display/config.txt)
 
+## Expand File system
+* pi$ > sudo raspi-config
+	* 1 Expand File system
 
 ## Transfer files on sftp
 * You will be able to:
